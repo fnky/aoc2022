@@ -4,7 +4,7 @@ My solutions of the [Advent of Code 2022](https://adventofcode.com/2022) challen
 
 ## Completed challenges
 
-- [`Day 01`](./day01)
+- [`Day 01`](./day01) - ⭐⭐
 - [`Day 02`](./day02)
 - [`Day 03`](./day03)
 - [`Day 04`](./day04)
@@ -47,9 +47,9 @@ cat input.txt | cargo run --bin day01
 cargo run --bin day01 < input.txt
 ```
 
-You can also run all or partial solutions: `cargo test`, `cargo test test_day01_part1`
+You can also run tests for all or partial solutions:
 
-```
+```sh
 # Run test for a specific parts of a specific day
 cargo test test_day01_part1
 

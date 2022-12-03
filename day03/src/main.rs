@@ -1,11 +1,40 @@
-use std::io::Read;
+use std::{io::Read, iter::zip};
+
+fn priority(c: char) -> i32 {
+    match c {
+        'a'..='z' => (c as u8 - 'a' as u8) as i32 + 1,
+        'A'..='Z' => (c as u8 - 'A' as u8) as i32 + 27,
+        _ => 0,
+    }
+}
 
 fn part1(raw_input: &str) -> i32 {
-    0
+    raw_input
+        .lines()
+        .map(|line| {
+            let (left, right) = line.split_at(line.len() / 2);
+            left.chars()
+                .find(|&c| right.contains(c))
+                .map_or(0, priority)
+        })
+        .sum::<i32>()
 }
 
 fn part2(raw_input: &str) -> i32 {
-    0
+    let lines = raw_input.lines().collect::<Vec<_>>();
+    lines
+        .chunks(3)
+        .flat_map(|chunks| {
+            chunks
+                .iter()
+                .map(|&line| {
+                    line.chars()
+                        .find(|&c| chunks.iter().all(|&other| other.contains(c)))
+                        .map_or(0, priority)
+                })
+                .take(1)
+        })
+        .sum::<i32>()
 }
 
 fn main() {
@@ -24,11 +53,31 @@ mod tests {
 
     #[test]
     fn test_day03_part1() {
-        assert_eq!(part1("foo"), 0);
+        assert_eq!(
+            part1(
+                r#"vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw"#
+            ),
+            157
+        );
     }
 
     #[test]
     fn test_day03_part2() {
-        assert_eq!(part2("bar"), 0);
+        assert_eq!(
+            part2(
+                r#"vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw"#
+            ),
+            70
+        );
     }
 }
